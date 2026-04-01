@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>1Stop Auto Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #0a0c10; --surface: #111318; --card: #161a22; --border: #1f2535; --accent: #3b82f6; --accent2: #f59e0b; --text: #f0f4ff; --muted: #8892a4; --radius: 14px; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; height: 70px; background: rgba(10,12,16,0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.3px; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+    .nav-logo .icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #6366f1); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-cta { background: var(--accent); color: #fff; padding: 8px 20px; border-radius: 8px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
+    .lang-toggle { display: flex; align-items: center; gap: 4px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 4px; }
+    .lang-btn { padding: 4px 10px; border-radius: 5px; font-size: 0.78rem; font-weight: 700; border: none; cursor: pointer; background: transparent; color: var(--muted); font-family: 'Inter', sans-serif; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 2rem 80px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59,130,246,0.18), transparent), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(245,158,11,0.08), transparent); pointer-events: none; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.25); color: var(--accent); border-radius: 999px; padding: 6px 16px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem; }
+    .hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 900; line-height: 1.08; letter-spacing: -1.5px; margin-bottom: 1.25rem; }
+    .hero h1 span { background: linear-gradient(90deg, var(--accent), #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--muted); max-width: 580px; margin: 0 auto 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn-primary { background: var(--accent); color: #fff; padding: 14px 32px; border-radius: 10px; font-size: 1rem; font-weight: 700; text-decoration: none; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,130,246,0.35); }
+    .btn-secondary { background: transparent; color: var(--text); padding: 14px 32px; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--accent); background: rgba(59,130,246,0.06); }
+    .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; justify-content: center; }
+    .stat { text-align: center; }
+    .stat-number { font-size: 2rem; font-weight: 800; color: var(--text); display: block; }
+    .stat-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+    section { padding: 100px 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 520px; }
+    #services { background: var(--surface); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 3.5rem; }
+    .service-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.5rem; position: relative; overflow: hidden; transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s; }
+    .service-card:hover { transform: translateY(-5px); border-color: rgba(59,130,246,0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), #6366f1); border-radius: var(--radius) var(--radius) 0 0; }
+    .service-card.gold::before { background: linear-gradient(90deg, var(--accent2), #ef4444); }
+    .service-icon { width: 56px; height: 56px; border-radius: 12px; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.5rem; }
+    .service-card.gold .service-icon { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.2); }
+    .service-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .service-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.75rem; line-height: 1.7; }
+    .service-features { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .service-features li { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--muted); }
+    .service-features li::before { content: "✓"; color: var(--accent); font-weight: 700; width: 18px; height: 18px; background: rgba(59,130,246,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; }
+    .service-card.gold .service-features li::before { color: var(--accent2); background: rgba(245,158,11,0.12); }
+    .card-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 9px; font-size: 0.9rem; font-weight: 700; text-decoration: none; width: 100%; justify-content: center; }
+    .card-btn-blue { background: rgba(59,130,246,0.12); color: var(--accent); border: 1px solid rgba(59,130,246,0.2); }
+    .card-btn-blue:hover { background: var(--accent); color: #fff; }
+    .card-btn-gold { background: rgba(245,158,11,0.12); color: var(--accent2); border: 1px solid rgba(245,158,11,0.2); }
+    .card-btn-gold:hover { background: var(--accent2); color: #fff; }
+    #why { background: var(--bg); }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 3.5rem; }
+    .why-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+    .why-item .icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+    .why-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .why-item p { font-size: 0.875rem; color: var(--muted); }
+    #contact { background: var(--surface); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3.5rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-item { display: flex; align-items: center; gap: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; }
+    .contact-item .ci-icon { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .ci-label { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+    .ci-value { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .ci-value a { color: inherit; text-decoration: none; }
+    .contact-form { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+    .contact-form h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; color: var(--text); padding: 12px 14px; font-size: 0.9rem; font-family: 'Inter', sans-serif; outline: none; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .submit-btn { width: 100%; background: var(--accent); color: #fff; border: none; padding: 13px; border-radius: 9px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; }
+    footer { background: var(--bg); border-top: 1px solid var(--border); text-align: center; padding: 2.5rem 2rem; }
+    footer p { color: var(--muted); font-size: 0.85rem; }
+    footer strong { color: var(--text); }
+    @media (max-width: 768px) { .nav-links { display: none; } .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; } .hero-stats { gap: 2rem; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#" class="nav-logo"><span class="icon">🚗</span>1Stop Auto Group</a>
+    <ul class="nav-links">
+      <li><a href="#services" data-en="Services" data-es="Servicios">Services</a></li>
+      <li><a href="#why" data-en="Why Us" data-es="Por Que Nosotros">Why Us</a></li>
+      <li><a href="#contact" data-en="Contact" data-es="Contacto">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+      </div>
+      <a href="#contact" class="nav-cta" data-en="Get a Quote" data-es="Obtener Cotizacion">Get a Quote</a>
+    </div>
+  </nav>
+  <section class="hero">
+    <div class="hero-badge" data-en="Auto Sales and Insurance - All In One Place" data-es="Ventas de Autos y Seguros - Todo en Un Lugar">Auto Sales and Insurance - All In One Place</div>
+    <h1>Drive Away <span>Covered and Confident</span></h1>
+    <p data-en="Find your next vehicle and get insurance to protect it - all through 1Stop Auto Group. Trusted, fast, and built around you." data-es="Encuentra tu proximo vehiculo y obten el seguro para protegerlo - todo en 1Stop Auto Group. Confiable, rapido y hecho para ti.">Find your next vehicle and get insurance to protect it - all through 1Stop Auto Group. Trusted, fast, and built around you.</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary" data-en="Browse Services" data-es="Ver Servicios">Browse Services</a>
+      <a href="#contact" class="btn-secondary" data-en="Contact Us" data-es="Contactanos">Contact Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-number">500+</span><span class="stat-label" data-en="Vehicles Sold" data-es="Vehiculos Vendidos">Vehicles Sold</span></div>
+      <div class="stat"><span class="stat-number">10+</span><span class="stat-label" data-en="Years of Experience" data-es="Anos de Experiencia">Years of Experience</span></div>
+      <div class="stat"><span class="stat-number">100%</span><span class="stat-label" data-en="Customer Satisfaction" data-es="Satisfaccion del Cliente">Customer Satisfaction</span></div>
+    </div>
+  </section>
+  <section id="services">
+    <div class="container">
+      <span class="section-label" data-en="What We Offer" data-es="Lo Que Ofrecemos">What We Offer</span>
+      <h2 class="section-title" data-en="Two Services, One Stop" data-es="Dos Servicios, Una Parada">Two Services, One Stop</h2>
+      <p class="section-sub" data-en="Whether you are shopping for a vehicle or protecting the one you have, we have got you covered." data-es="Ya sea que busques un vehiculo o quieras proteger el que tienes, nosotros te cubrimos.">Whether you are shopping for a vehicle or protecting the one you have, we have got you covered.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🚘</div>
+          <h3 data-en="Car Sales" data-es="Venta de Autos">Car Sales</h3>
+          <p data-en="Browse our wide selection of quality pre-owned and new vehicles at competitive prices. Simple, transparent, and stress-free." data-es="Explora nuestra amplia seleccion de vehiculos a precios competitivos. Simple, transparente y sin estres.">Browse our wide selection of quality pre-owned and new vehicles at competitive prices. Simple, transparent, and stress-free.</p>
+          <ul class="service-features">
+            <li data-en="Wide inventory of cars, trucks and SUVs" data-es="Gran inventario de autos, camionetas y SUVs">Wide inventory of cars, trucks and SUVs</li>
+            <li data-en="Competitive and transparent pricing" data-es="Precios competitivos y transparentes">Competitive and transparent pricing</li>
+            <li data-en="Flexible financing options available" data-es="Opciones de financiamiento flexibles">Flexible financing options available</li>
+            <li data-en="Test drives welcome - no pressure" data-es="Pruebas de manejo bienvenidas - sin presion">Test drives welcome - no pressure</li>
+            <li data-en="Trade-ins accepted" data-es="Se aceptan intercambios">Trade-ins accepted</li>
+          </ul>
+          <a href="#contact" class="card-btn card-btn-blue" data-en="Connect With Us" data-es="Conectate Con Nosotros">Connect With Us</a>
+        </div>
+        <div class="service-card gold">
+          <div class="service-icon">🛡️</div>
+          <h3 data-en="Auto Insurance" data-es="Seguro de Auto">Auto Insurance</h3>
+          <p data-en="Get the right coverage at the right price. We compare plans and find a policy that fits your budget." data-es="Obten la cobertura adecuada al mejor precio. Comparamos planes y encontramos la poliza ideal para ti.">Get the right coverage at the right price. We compare plans and find a policy that fits your budget.</p>
+          <ul class="service-features">
+            <li data-en="Liability, collision and comprehensive" data-es="Responsabilidad civil, colision y cobertura completa">Liability, collision and comprehensive</li>
+            <li data-en="Fast quotes - same day coverage" data-es="Cotizaciones rapidas - cobertura el mismo dia">Fast quotes - same day coverage</li>
+            <li data-en="Affordable rates for all driver profiles" data-es="Tarifas accesibles para todo tipo de conductor">Affordable rates for all driver profiles</li>
+            <li data-en="SR-22 filings available" data-es="Tramites de SR-22 disponibles">SR-22 filings available</li>
+            <li data-en="Bilingual support available" data-es="Atencion bilingue disponible">Bilingual support available</li>
+          </ul>
+          <a href="#contact" class="card-btn card-btn-gold" data-en="Get a Free Quote" data-es="Obtener Cotizacion Gratis">Get a Free Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="why">
+    <div class="container">
+      <span class="section-label" data-en="Why 1Stop Auto" data-es="Por Que 1Stop Auto">Why 1Stop Auto</span>
+      <h2 class="section-title" data-en="Your Trusted Local Partner" data-es="Tu Socio Local de Confianza">Your Trusted Local Partner</h2>
+      <p class="section-sub" data-en="We are part of the community. Here is what sets us apart." data-es="Somos parte de la comunidad. Esto es lo que nos distingue.">We are part of the community. Here is what sets us apart.</p>
+      <div class="why-grid">
+        <div class="why-item"><span class="icon">💬</span><h4 data-en="Personalized Service" data-es="Servicio Personalizado">Personalized Service</h4><p data-en="We take time to understand your needs and find the best solution for your budget." data-es="Nos tomamos el tiempo de entender tus necesidades y encontrar la mejor solucion para tu presupuesto.">We take time to understand your needs and find the best solution for your budget.</p></div>
+        <div class="why-item"><span class="icon">⚡</span><h4 data-en="Fast and Easy Process" data-es="Proceso Rapido y Sencillo">Fast and Easy Process</h4><p data-en="Skip the runaround. We get you driving or insured quickly - often the same day." data-es="Sin vueltas. Te ponemos al volante o asegurado - muchas veces el mismo dia.">Skip the runaround. We get you driving or insured quickly - often the same day.</p></div>
+        <div class="why-item"><span class="icon">🤝</span><h4 data-en="Honest and Transparent" data-es="Honesto y Transparente">Honest and Transparent</h4><p data-en="No hidden fees, no tricks. Just clear pricing and real advice you can trust." data-es="Sin cargos ocultos. Solo precios claros y consejos reales en los que puedes confiar.">No hidden fees, no tricks. Just clear pricing and real advice you can trust.</p></div>
+        <div class="why-item"><span class="icon">🌐</span><h4 data-en="Bilingual Support" data-es="Atencion Bilingue">Bilingual Support</h4><p data-en="We proudly serve English and Spanish-speaking customers with equal care." data-es="Atendemos con orgullo a clientes en ingles y espanol con el mismo cuidado.">We proudly serve English and Spanish-speaking customers with equal care.</p></div>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <div class="container">
+      <span class="section-label" data-en="Get In Touch" data-es="Contactanos">Get In Touch</span>
+      <h2 class="section-title" data-en="Ready to Get Started?" data-es="Listo Para Comenzar?">Ready to Get Started?</h2>
+      <p class="section-sub" data-en="Call us, send an email, or fill out the form and we will get back to you right away." data-es="Llamanos, envianos un correo o completa el formulario y te respondemos de inmediato.">Call us, send an email, or fill out the form and we will get back to you right away.</p>
+      <div class="contact-inner">
+        <div class="contact-info">
+          <div class="contact-item"><div class="ci-icon">📞</div><div><div class="ci-label" data-en="Phone" data-es="Telefono">Phone</div><div class="ci-value"><a href="tel:+12017707496">+1 (201) 770-7496</a></div></div></div>
+          <div class="contact-item"><div class="ci-icon">✉️</div><div><div class="ci-label" data-en="Email" data-es="Correo">Email</div><div class="ci-value"><a href="mailto:casanowrentals@gmail.com">casanowrentals@gmail.com</a></div></div></div>
+          <div class="contact-item"><div class="ci-icon">🕐</div><div><div class="ci-label" data-en="Hours" data-es="Horario">Hours</div><div class="ci-value" data-en="Mon-Sat: 9am - 7pm" data-es="Lun-Sab: 9am - 7pm">Mon-Sat: 9am - 7pm</div></div></div>
+        </div>
+        <div class="contact-form">
+          <h3 data-en="Send Us a Message" data-es="Envianos un Mensaje">Send Us a Message</h3>
+          <div class="form-group"><label data-en="Your Name" data-es="Tu Nombre">Your Name</label><input type="text" placeholder="John Doe" /></div>
+          <div class="form-group"><label data-en="Phone or Email" data-es="Telefono o Correo">Phone or Email</label><input type="text" placeholder="(201) 555-0100 or email@example.com" /></div>
+          <div class="form-group"><label data-en="I am Interested In" data-es="Estoy Interesado En">I am Interested In</label><select><option data-en="Car Sales" data-es="Venta de Autos">Car Sales</option><option data-en="Auto Insurance" data-es="Seguro de Auto">Auto Insurance</option><option data-en="Both" data-es="Ambos">Both</option></select></div>
+          <div class="form-group"><label data-en="Message" data-es="Mensaje">Message</label><textarea placeholder="Tell us what you are looking for..."></textarea></div>
+          <button class="submit-btn" data-en="Send Message" data-es="Enviar Mensaje">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer><p>2026 <strong>1Stop Auto Group</strong> - <span data-en="All rights reserved" data-es="Todos los derechos reservados">All rights reserved</span> - <a href="tel:+12017707496" style="color:var(--accent);text-decoration:none;">+1 (201) 770-7496</a></p></footer>
+  <script>
+    function setLang(lang) {
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+      document.querySelectorAll('[data-en][data-es]').forEach(function(el) {
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+      document.documentElement.lang = lang;
+    }
+  </script>
+</body>
+</html>
